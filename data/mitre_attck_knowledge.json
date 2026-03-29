@@ -1,0 +1,262 @@
+{
+  "mitre_attck_version": "15.1",
+  "techniques": [
+    {
+      "technique_id": "T1566",
+      "name": "Phishing",
+      "tactic": "Initial Access",
+      "description": "Adversaries may send phishing messages to gain access to victim systems. All forms of phishing are electronically delivered social engineering. Phishing can be targeted (spearphishing) or generic (spam). Phishing may also involve social engineering techniques, such as posing as a trusted source.",
+      "sub_techniques": ["T1566.001 - Spearphishing Attachment", "T1566.002 - Spearphishing Link", "T1566.003 - Spearphishing via Service"],
+      "detection": "Monitor for suspicious email attachments, URLs in emails, email header anomalies. Network intrusion detection systems and email gateway filtering can identify phishing attempts.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1059",
+      "name": "Command and Scripting Interpreter",
+      "tactic": "Execution",
+      "description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries. These interfaces and languages provide ways of interacting with computer systems and are common across many platforms.",
+      "sub_techniques": ["T1059.001 - PowerShell", "T1059.003 - Windows Command Shell", "T1059.005 - Visual Basic", "T1059.006 - Python"],
+      "detection": "Monitor command-line arguments for script execution and Windows scripting activities. Log PowerShell usage and command-line invocations. Monitor for unusual process creation from script interpreters.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1204",
+      "name": "User Execution",
+      "tactic": "Execution",
+      "description": "An adversary may rely upon specific actions by a user in order to gain execution. Users may be subjected to social engineering to get them to execute malicious code by, for example, opening a malicious document file or link.",
+      "sub_techniques": ["T1204.001 - Malicious Link", "T1204.002 - Malicious File"],
+      "detection": "Monitor the execution of and command-line arguments for applications that may be used by an adversary to gain initial execution. Track file creation from email clients and web browsers.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1547",
+      "name": "Boot or Logon Autostart Execution",
+      "tactic": "Persistence",
+      "description": "Adversaries may configure system settings to automatically execute a program during system boot or logon to maintain persistence or gain higher-level privileges on compromised systems.",
+      "sub_techniques": ["T1547.001 - Registry Run Keys / Startup Folder", "T1547.004 - Winlogon Helper DLL"],
+      "detection": "Monitor Registry for changes to run keys. Monitor the start folder for additions or changes. Tools such as Sysinternals Autoruns may also be used to detect system changes.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1053",
+      "name": "Scheduled Task/Job",
+      "tactic": "Persistence",
+      "description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time.",
+      "sub_techniques": ["T1053.003 - Cron", "T1053.005 - Scheduled Task"],
+      "detection": "Monitor scheduled task creation on Windows and cron job modifications on Linux. Audit scheduled task actions and command-line invocations.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1078",
+      "name": "Valid Accounts",
+      "tactic": "Persistence",
+      "description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining initial access, persistence, privilege escalation, or defense evasion. Compromised credentials may be used to bypass access controls.",
+      "sub_techniques": ["T1078.001 - Default Accounts", "T1078.002 - Domain Accounts", "T1078.003 - Local Accounts"],
+      "detection": "Monitor authentication logs for unusual login patterns, failed login attempts, logins from unusual locations or at unusual times. Configure multi-factor authentication.",
+      "platforms": ["Windows", "macOS", "Linux", "Cloud"]
+    },
+    {
+      "technique_id": "T1110",
+      "name": "Brute Force",
+      "tactic": "Credential Access",
+      "description": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained. Brute forcing passwords can take place via interaction with a service that will check the validity of those credentials.",
+      "sub_techniques": ["T1110.001 - Password Guessing", "T1110.002 - Password Cracking", "T1110.003 - Password Spraying"],
+      "detection": "Monitor authentication logs for system and application login failures of valid accounts. Monitor for many failed authentication attempts across various accounts.",
+      "platforms": ["Windows", "macOS", "Linux", "Cloud"]
+    },
+    {
+      "technique_id": "T1021",
+      "name": "Remote Services",
+      "tactic": "Lateral Movement",
+      "description": "Adversaries may use valid accounts to log into a service specifically designed to accept remote connections, such as RDP, SSH, SMB, or VNC. The adversary may then perform actions as the logged-on user.",
+      "sub_techniques": ["T1021.001 - Remote Desktop Protocol", "T1021.002 - SMB/Windows Admin Shares", "T1021.004 - SSH"],
+      "detection": "Monitor for logon sessions created with remote interactive logons. Correlate IP addresses of remote system connections with unusual login times or locations.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1570",
+      "name": "Lateral Tool Transfer",
+      "tactic": "Lateral Movement",
+      "description": "Adversaries may transfer tools or other files between systems in a compromised environment. Files may be copied from one system to another to stage adversary tools or other files over the course of an operation.",
+      "detection": "Monitor for file creation and file transfers within the network using SMB, RDP, or other protocols. Network traffic analysis can identify unusual internal data flows.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1071",
+      "name": "Application Layer Protocol",
+      "tactic": "Command and Control",
+      "description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic.",
+      "sub_techniques": ["T1071.001 - Web Protocols", "T1071.004 - DNS"],
+      "detection": "Analyze network data for uncommon data flows. Processes utilizing the network that do not normally have network communication or have never been seen before are suspicious.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1573",
+      "name": "Encrypted Channel",
+      "tactic": "Command and Control",
+      "description": "Adversaries may employ a known encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol.",
+      "sub_techniques": ["T1573.001 - Symmetric Cryptography", "T1573.002 - Asymmetric Cryptography"],
+      "detection": "SSL/TLS inspection can be used to see the contents of encrypted sessions to look for network-based indicators of malware communication. Analyze network traffic for unusual encrypted connections.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1041",
+      "name": "Exfiltration Over C2 Channel",
+      "tactic": "Exfiltration",
+      "description": "Adversaries may steal data by exfiltrating it over an existing command and control channel. Stolen data is encoded into the normal communications channel using the same protocol as command and control communications.",
+      "detection": "Analyze network data for uncommon data flows. Monitor for unexpected large transfers of data. Detect processes loading DLLs associated with data compression/encryption.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1048",
+      "name": "Exfiltration Over Alternative Protocol",
+      "tactic": "Exfiltration",
+      "description": "Adversaries may steal data by exfiltrating it over a different protocol than that of the existing command and control channel. The data may also be sent to an alternative network location from the main command and control server.",
+      "sub_techniques": ["T1048.001 - Exfiltration Over Symmetric Encrypted Non-C2 Protocol", "T1048.003 - Exfiltration Over Unencrypted Non-C2 Protocol"],
+      "detection": "Analyze network data for uncommon data flows using protocols such as DNS, ICMP, or SMTP for outbound data transfer. Monitor outbound network traffic for large volumes.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1486",
+      "name": "Data Encrypted for Impact",
+      "tactic": "Impact",
+      "description": "Adversaries may encrypt data on target systems or on large numbers of systems in a network to interrupt availability to system and network resources. This is commonly associated with ransomware attacks where data is encrypted and a ransom demand is made.",
+      "detection": "Monitor for a large number of file modifications, especially changes to file extensions. Look for known ransomware file extensions. Monitor for creation of ransom notes.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1490",
+      "name": "Inhibit System Recovery",
+      "tactic": "Impact",
+      "description": "Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery. Operating systems may contain features that can help fix corrupted systems, such as Volume Shadow Copy.",
+      "detection": "Monitor for execution of vssadmin, wmic, wbadmin, or bcdedit commands used to disable or delete system recovery features. Monitor the status of services related to system recovery.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1190",
+      "name": "Exploit Public-Facing Application",
+      "tactic": "Initial Access",
+      "description": "Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended or unanticipated behavior. Vulnerabilities may exist in web servers, databases, and other services.",
+      "detection": "Monitor application logs for abnormal usage. Monitor traffic patterns and inspect incoming network data for unusual requests. Use deep packet inspection for known exploit signatures.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1496",
+      "name": "Resource Hijacking",
+      "tactic": "Impact",
+      "description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. One common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency (cryptomining).",
+      "detection": "Monitor for process resource usage that is inconsistent with expected behavior (high CPU/GPU). Monitor for network connections to known mining pools.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1574",
+      "name": "Hijack Execution Flow",
+      "tactic": "Persistence",
+      "description": "Adversaries may execute their own malicious payloads by hijacking the way operating systems run programs. Hijacking execution flow can be for the purposes of persistence, since this hijacked execution may reoccur over time.",
+      "sub_techniques": ["T1574.001 - DLL Search Order Hijacking", "T1574.002 - DLL Side-Loading"],
+      "detection": "Monitor file systems for moving, renaming, replacing, or modifying DLLs. Monitor for changes in DLL loading behavior. Use application whitelisting tools.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1036",
+      "name": "Masquerading",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools. Masquerading occurs when the name or location of an object, legitimate or malicious, is manipulated or abused for the sake of evading defenses.",
+      "sub_techniques": ["T1036.003 - Rename System Utilities", "T1036.005 - Match Legitimate Name or Location"],
+      "detection": "Monitor for file names that are inconsistent with their content or location. Look for executables with names of system utilities but located in non-standard paths.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1027",
+      "name": "Obfuscated Files or Information",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit.",
+      "sub_techniques": ["T1027.001 - Binary Padding", "T1027.002 - Software Packing"],
+      "detection": "Monitor for file obfuscation tools and artifacts. Detect packed executables using entropy analysis. Monitor for processes with unusually high entropy in their binaries.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1055",
+      "name": "Process Injection",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may inject code into processes in order to evade process-based defenses as well as possibly elevate privileges. Process injection is a method of executing arbitrary code in the address space of a separate live process.",
+      "sub_techniques": ["T1055.001 - Dynamic-link Library Injection", "T1055.012 - Process Hollowing"],
+      "detection": "Monitor for unusual process behavior such as a program opening handles to other processes, reading/writing to different process memory, or creating remote threads.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1105",
+      "name": "Ingress Tool Transfer",
+      "tactic": "Command and Control",
+      "description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network.",
+      "detection": "Monitor for file creation of tools or payloads from external systems. Analyze network data for file downloads over HTTP, HTTPS, FTP. Monitor for unusual processes downloading files.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1571",
+      "name": "Non-Standard Port",
+      "tactic": "Command and Control",
+      "description": "Adversaries may communicate using a protocol and port pairing that are typically not associated. For example, HTTPS over port 8088 or port 587 as opposed to the traditional port 443.",
+      "detection": "Analyze network data for uncommon protocol/port combinations. Monitor for processes utilizing network connections on non-standard ports.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1560",
+      "name": "Archive Collected Data",
+      "tactic": "Collection",
+      "description": "An adversary may compress and/or encrypt data that is collected prior to exfiltration. Compressing the data can help to obfuscate the collected data and minimize the amount of data sent over the network.",
+      "sub_techniques": ["T1560.001 - Archive via Utility"],
+      "detection": "Monitor for common archive file applications and extensions, such as those for Zip and RAR archive tools. Monitor command-line arguments for archiving utilities.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1195",
+      "name": "Supply Chain Compromise",
+      "tactic": "Initial Access",
+      "description": "Adversaries may manipulate products or product delivery mechanisms prior to receipt by a final consumer for the purpose of data or system compromise. Supply chain compromise can take place at any stage of the supply chain.",
+      "sub_techniques": ["T1195.001 - Compromise Software Dependencies and Development Tools", "T1195.002 - Compromise Software Supply Chain"],
+      "detection": "Monitor for unexpected software updates, dependency changes, or unsigned packages. Verify software integrity with checksums and digital signatures.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1059.001",
+      "name": "PowerShell",
+      "tactic": "Execution",
+      "description": "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system.",
+      "detection": "Monitor for loading of PowerShell command-line module. Monitor PowerShell log events. Enable Script Block Logging and Module Logging. Look for encoded commands and download cradles.",
+      "platforms": ["Windows"]
+    },
+    {
+      "technique_id": "T1082",
+      "name": "System Information Discovery",
+      "tactic": "Discovery",
+      "description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. This information may be used to shape follow-on behaviors.",
+      "detection": "Monitor for execution of system information discovery commands such as systeminfo, hostname, uname. Monitor for API calls that gather system information.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1083",
+      "name": "File and Directory Discovery",
+      "tactic": "Discovery",
+      "description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system.",
+      "detection": "Monitor for command-line arguments involving file and directory enumeration (dir, ls, find). Monitor API calls that may enumerate files and directories.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1219",
+      "name": "Remote Access Software",
+      "tactic": "Command and Control",
+      "description": "An adversary may use legitimate desktop support and remote access software, such as TeamViewer, AnyDesk, ScreenConnect, or similar tools, to establish an interactive command and control channel to target systems.",
+      "detection": "Monitor for applications and processes related to remote admin tools. Monitor for network connections to known remote access software services. Inventory installed software.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    },
+    {
+      "technique_id": "T1140",
+      "name": "Deobfuscate/Decode Files or Information",
+      "tactic": "Defense Evasion",
+      "description": "Adversaries may use obfuscated files or information to hide artifacts of an intrusion from analysis. They may require separate mechanisms to decode or deobfuscate that information depending on how they intend to use it.",
+      "detection": "Monitor for execution of commands associated with deobfuscation or decoding, such as certutil -decode or base64. Monitor for files written by decoding processes.",
+      "platforms": ["Windows", "macOS", "Linux"]
+    }
+  ]
+}
